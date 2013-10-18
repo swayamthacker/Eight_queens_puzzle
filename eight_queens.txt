@@ -1,0 +1,148 @@
+#include <iostream>
+
+using namespace std;
+const int size = 8;
+int chess[size][size];
+bool check(int, int);
+int a,b;
+int solution(int);
+void printarray();
+
+bool check(int row,int col)
+{
+int i,j;
+
+for(i =0;i<size;i++)
+{
+if(chess[row][i]==1)
+{
+//cout<<"There is more than one element in this row"<<endl;
+return false;
+}
+}
+
+for(i=0;i<size;i++)
+{
+if(chess[i][col]==1)
+{
+//cout<<"there is more than one element in this column"<<endl;
+return false;
+}
+}
+
+for(i=row,j=col;i>=0 && j>=0;i--,j--)
+{
+if(chess[i][j]==1)
+{
+//cout<<"The lower left diagonal is screwed up"<<endl;
+return false;
+}
+}
+for(i=row,j=col;i<size&&j<size;i++,j++)
+{
+if(chess[i][j]==1)
+{
+//cout<<"The upper right diagonal is screwed up"<<endl;
+return false;
+}
+}
+for(i=row,j=col;i<size&&j>=0;i++,j--)
+{
+if(chess[i][j]==1)
+{
+//cout<<"The upper left diagonal is screwed up"<<endl;
+return false;
+}
+}
+for(i=row,j=col;i>=0&&j<size;i--,j++)
+{
+if(chess[i][j]==1)
+{
+//cout<<"The lower right diagonal is screwed up"<<endl;
+return false;
+}
+}
+return true;
+}
+
+int solution(int row)
+{
+int x,y;
+int found;
+
+
+//cout<<"Solution Row:"<<row;
+//cin>>y;
+
+/* if(row==(size-1))
+{
+printarray();
+cout<<"I AM REACHING HERE"<<endl;
+}
+*/
+
+if (row==size)
+{
+printarray();
+found =1;
+return found;
+}
+
+
+if(row==0)
+{
+y=3;
+}
+else
+{
+y = 0;
+}
+
+
+for(x=y;x<size;x++)
+{
+if(check(row,x)==1)
+{
+found = 1;//works even when this line is eliminated.
+chess[row][x]=1;
+//cout<<"This spot is one at "<<row<<" and "<<x<<endl;
+found = solution(row+1);
+
+
+if ( found==1 )
+break;
+else
+chess[row][x]=0;
+}
+}
+
+return found;
+}
+
+void printarray()
+{
+int n,m;
+
+//cout<<"Printing final output"
+//cin>>m;
+
+for(m=0;m<size;m++)
+{
+
+for(n=0;n<size;n++)
+
+cout<<chess[m][n]<<" ";
+cout<<endl;
+
+}
+cout<<endl;
+}
+
+int main()
+{
+chess[size][size]={0};
+solution(0);
+//printarray();
+return 0;
+}
+
